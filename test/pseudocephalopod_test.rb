@@ -10,6 +10,4 @@ class PseudocephalopodTest < Test::Unit::TestCase
     assert_equal 'awesome--100', Pseudocephalopod.with_counter('awesome', 100)
   end
   
-  should 'let you calculate a slug for a given scope and prefix text'
-  
 end

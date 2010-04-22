@@ -5,7 +5,7 @@ module Pseudocephalopod
       parent.class_eval do
         include InstanceMethods
         extend  ClassMethods
-        after_save :check_slug_change
+        after_save :record_slug_changes
       end
     end
    
@@ -17,7 +17,7 @@ module Pseudocephalopod
       
       protected
       
-      def check_slug_change
+      def record_slug_changes
         return unless send(:"#{self.cached_slug_column}_changed?")
         value = send(:"#{self.cached_slug_column}_was")
         Pseudocephalopod.record_slug(self, value) if value.present?
@@ -28,12 +28,8 @@ module Pseudocephalopod
     module ClassMethods
       
       def find_using_slug_history(slug, options = {})
-        id = Pseudocephalopod.last_known_slug_id(self.slug_scope, slug)
+        id = Pseudocephalopod.last_known_slug_id(self, slug)
         id.present? ? find_by_id(id, options) : nil
-      end
-      
-      def slug_scope
-        table_name
       end
       
     end

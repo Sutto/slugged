@@ -77,5 +77,13 @@ class IsSluggableTest < Test::Unit::TestCase
       assert_equal "ninjas-are-awesome--1", u2.to_slug
     end
     
+    should 'let you find out if there is a better way of finding a slug' do
+      user = User.create :name => "Bob"
+      user.update_attributes! :name => "Ralph"
+      assert !User.find_using_slug("ralph").has_better_slug?
+      assert User.find_using_slug("bob").has_better_slug?
+      assert User.find_using_slug(user.id).has_better_slug?
+    end
+    
   end
 end

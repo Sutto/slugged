@@ -9,7 +9,8 @@ module Pseudocephalopod
       options.symbolize_keys!
       # Define the attributes
       class_attribute :cached_slug_column, :slug_source, :slug_source_convertor,
-                      :default_uuid_slug, :store_slug_history, :sync_slugs
+                      :default_uuid_slug, :store_slug_history, :sync_slugs, :slug_scope
+      attr_accessor :found_via_slug
       # Set attribute values
       set_slug_convertor options[:convertor]
       self.slug_source        = source.to_sym
@@ -17,6 +18,8 @@ module Pseudocephalopod
       self.default_uuid_slug  = !!options.fetch(:uuid, true)
       self.store_slug_history = !!options.fetch(:history, true)
       self.sync_slugs         = !!options.fetch(:sync, true)
+      self.slug_scope         = options[:slug_scope]
+      include Pseudocephalopod::Caching if !!options.fetch(:use_cache, true)
       alias_method :to_param, :to_slug if !!options.fetch(:to_param, true)
       include Pseudocephalopod::SlugHistory if self.store_slug_history
       before_validation :autogenerate_slug
@@ -32,7 +35,7 @@ module Pseudocephalopod
         slug_value = send(self.slug_source)
         slug_value = self.slug_source_convertor.call(slug_value) if slug_value.present?
         if slug_value.present?
-          scope = self.class.other_than(self)
+          scope = self.class.other_than(self).slug_scope_relation(self)
           slug_value = Pseudocephalopod.next_value(scope, slug_value)
           write_attribute self.cached_slug_column, slug_value
         elsif self.default_uuid_slug
@@ -55,6 +58,14 @@ module Pseudocephalopod
         send(self.cached_slug_column).blank? || (self.sync_slugs && send(:"#{self.slug_source}_changed?"))
       end
       
+      def has_better_slug?
+        found_via_slug.present? && found_via_slug != to_slug
+      end
+      
+      def slug_scope_key(nested_scope = [])
+        self.class.slug_scope_key(nested_scope)
+      end
+      
     end
     
     module ClassMethods
@@ -63,7 +74,19 @@ module Pseudocephalopod
         find_each { |r| r.generate_slug! }
       end
       
+      def slug_scope_key(nested_scope = [])
+        ([table_name, slug_scope] + Array(nested_scope)).flatten.compact.join("|")
+      end
+      
+      def slug_scope_relation(record)
+        has_slug_scope? ? where(slug_scope => record.send(slug_scope)) : unscoped
+      end
+      
       protected
+      
+      def has_slug_scope?
+        self.slug_scope.present?
+      end
       
       def set_slug_convertor(convertor)
         if convertor.present?

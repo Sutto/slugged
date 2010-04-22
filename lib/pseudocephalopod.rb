@@ -1,7 +1,10 @@
 require 'uuid'
 
 module Pseudocephalopod
+  
   class << self
+    
+    attr_accessor :cache_key_prefix, :cache
     
     def with_counter(prefix, counter = 0)
       counter < 1 ? prefix : "#{prefix}--#{counter}"
@@ -22,7 +25,7 @@ module Pseudocephalopod
     end
     
     def last_known_slug_id(scope, slug)
-      Pseudocephalopod::Slug.id_for(scope, slug)
+      Pseudocephalopod::Slug.id_for(Pseudocephalopod.key_for_scope(scope), slug)
     end
     
     def record_slug(record, slug)
@@ -33,14 +36,30 @@ module Pseudocephalopod
       Pseudocephalopod::Slug.previous_for(record)
     end
     
+    def key_for_scope(scope)
+      if scope.respond_to?(:slug_scope_key)
+        scope.slug_scope_key
+      elsif scope.class.respond_to?(:slug_scope_key)
+        scope.class.slug_scope_key
+      else
+        scope.to_s
+      end
+    end
+    
   end
   
+  self.cache_key_prefix ||= "cached-slugs"
+  
+  autoload :Caching,     'pseudocephalopod/caching'
   autoload :Scopes,      'pseudocephalopod/scopes'
   autoload :Finders,     'pseudocephalopod/finders'
   autoload :SlugHistory, 'pseudocephalopod/slug_history'
   autoload :Slug,        'pseudocephalopod/slug'
+  autoload :MemoryCache, 'pseudocephalopod/memory_cache'
   
   require 'pseudocephalopod/active_record_methods'
   ActiveRecord::Base.extend Pseudocephalopod::ActiveRecordMethods
+  
+  # require 'pseudocephalopod/railtie' if defined?(Rails::Railtie)
   
 end

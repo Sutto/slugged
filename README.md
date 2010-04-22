@@ -58,10 +58,11 @@ is\_sluggable accepts the source method name as a symbol, and an optional has of
 * _:uuid_ - If the slug is blank, uses a generated uuid instead. Defaults to true
 * _:slug\_column_ - the column in which to store the slug. Defaults to _:cached\_slug_
 * _:to\_param_ - if true (by default), overrides to_param to use the slug
+* _:use\_cache_ - uses Pseudocephalopod.cache if available to cache any lookups e.g. in memcache.
 
 Once installed, it provides the following methods:
 
-### User.find_slugged "some-slug" ###
+### User.find\_using\_slug "some-slug" ###
 
 Finds a user from a slug (which can be the record's id, it's cached slug or, if enabled, slug history)
 
@@ -84,6 +85,11 @@ Forces the generation of a current slug and saves it
 ### User#autogenerate\_slug ###
 
 Generates a slug if not already present.
+
+### User#has\_better\_slug? ###
+
+When found via Model.find\_using\_slug, it will return try
+if there is a better slug available. Intended for use in redirects etc.
 
 ## Working on Pseudocephalopod ##
 
