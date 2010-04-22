@@ -2,7 +2,7 @@ require 'helper'
 require 'digest/md5'
 
 class IsSluggableTest < Test::Unit::TestCase
-  with_tables :users, :unslugged_users do
+  with_tables :slugs, :users, :unslugged_users do
     
     should 'correctly sluggify a value' do
       user = User.create(:name => "Bob")

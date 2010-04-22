@@ -36,6 +36,10 @@ module Pseudocephalopod
       Pseudocephalopod::Slug.previous_for(record)
     end
     
+    def remove_slug_history_for(record)
+      Pseudocephalopod::Slug.remove_history_for(record)
+    end
+    
     def key_for_scope(scope)
       if scope.respond_to?(:slug_scope_key)
         scope.slug_scope_key

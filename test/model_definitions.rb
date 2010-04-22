@@ -4,14 +4,12 @@ ReversibleData.in_memory!
 
 # Define models here.
 
-slugs = ReversibleData.add :slugs do |t|
+ReversibleData.add :slugs do |t|
   t.string  :scope
   t.string  :slug
   t.integer :record_id
   t.datetime :created_at
 end
-
-slugs.create_table
 
 user = ReversibleData.add :users do |u|
   u.string :name

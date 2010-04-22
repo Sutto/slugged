@@ -7,8 +7,7 @@ class FakedModel
 end
 
 class SlugHistoryTest < Test::Unit::TestCase
-  
-  context 'recording / checking slug history' do
+  with_tables :slugs do
     
     setup do
       @record_a = FakedModel.new(12)

@@ -19,6 +19,10 @@ module Pseudocephalopod
     def self.previous_for(record)
       only_slug.ordered.for_record(record).all.map(&:slug)
     end
+    
+    def self.remove_history_for(record)
+      for_record(record).delete_all
+    end
   
   end
 end

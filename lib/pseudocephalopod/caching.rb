@@ -42,7 +42,7 @@ module Pseudocephalopod
         [Pseudocephalopod.cache_key_prefix, slug_scope_key(Digest::SHA256.hexdigest(slug.to_s.strip))].compact.join("/")
       end
       
-      def has_cached_id_for_slug?(slug)
+      def has_cache_for_slug?(slug)
         lookup_cached_id_from_slug(slug).present?
       end
       
