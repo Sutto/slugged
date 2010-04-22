@@ -12,6 +12,9 @@ It's main features are:
 4. Built on ActiveRecord 3.0
 5. If stringex is installed, uses stringex's transliteration stuff
 
+Also, it's name is inspired by the Jason Wander series of books which I just happened to be
+reading when I had the need for this.
+
 ### Why? ###
 
 I love the idea of friendly\_id, and most of the implementation but it felt bloated
@@ -81,6 +84,15 @@ Forces the generation of a current slug and saves it
 ### User#autogenerate\_slug ###
 
 Generates a slug if not already present.
+
+## Working on Pseudocephalopod ##
+
+To run tests, simply do the following:
+
+    bundle install
+    rake
+
+And it's ready!
 
 ## Note on Patches/Pull Requests ##
  
