@@ -1,5 +1,7 @@
 # Pseudocephalopod #
 
+## About ###
+
 Pseudocephalopod is a simple slug library for ActiveRecord 3.0 plus.
 
 It's main features are:
@@ -8,6 +10,16 @@ It's main features are:
 2. Support for slug history (e.g. if a users slug changes, it will record the old slug)
 3. Simple defaulting for slugs to UUID's (to avoid showing ID's.)
 4. Built on ActiveRecord 3.0
+5. If stringex is installed, uses stringex's transliteration stuff
+
+### Why? ###
+
+I love the idea of friendly\_id, and most of the implementation but it felt bloated
+to me and my experiences on getting it to work correctly with Rails 3 left a base taste
+in my mouth / was altogether hacky.
+
+Pseudocephalopod is very much inspired by friendly id but with a much simpler codebase
+and built to work on Rails 3 from the start.
 
 ## Usage ##
 
