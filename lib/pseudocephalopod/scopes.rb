@@ -6,11 +6,7 @@ module Pseudocephalopod
     end
     
     def other_than(record)
-      record.new_record? ? self : where("#{quoted_table_name}.id != ?", record.id)
-    end
-    
-    def with_stored_slug(slug)
-      
+      record.new_record? ? unscoped : where("#{quoted_table_name}.id != ?", record.id)
     end
     
   end
