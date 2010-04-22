@@ -1,6 +1,8 @@
-= pseudocephalopod
+= Pseudocephalopod
 
-Description goes here.
+Pseudocephalopod is a simple slug library for ActiveRecord 3.0 plus.
+
+It supports slug history and the like.
 
 == Note on Patches/Pull Requests
  

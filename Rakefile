@@ -1,17 +1,21 @@
 require 'rubygems'
 require 'rake'
 
+require File.expand_path('../lib/pseudocephalopod/version', __FILE__)
+
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "pseudocephalopod"
-    gem.summary = %Q{Super simple slugs for ActiveRecord 3.0 and higher, with support for slug history}
+    gem.version     = Pseudocephalopod::Version::STRING
+    gem.name        = "pseudocephalopod"
+    gem.summary     = %Q{Super simple slugs for ActiveRecord 3.0 and higher, with support for slug history}
     gem.description = %Q{TODO: longer description of your gem}
-    gem.email = "sutto@sutto.net"
-    gem.homepage = "http://github.com/Sutto/pseudocephalopod"
-    gem.authors = ["Darcy Laycock"]
-    gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
+    gem.email       = "sutto@sutto.net"
+    gem.homepage    = "http://github.com/Sutto/pseudocephalopod"
+    gem.authors     = ["Darcy Laycock"]
+    gem.add_dependency "activerecord", ">= 3.0.0.beta2"
+    gem.add_development_dependency "shoulda", ">= 0"
+    gem.add_development_dependency "reversible_data"
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
@@ -21,7 +25,7 @@ end
 require 'rake/testtask'
 Rake::TestTask.new(:test) do |test|
   test.libs << 'lib' << 'test'
-  test.pattern = 'test/**/test_*.rb'
+  test.pattern = 'test/**/*_test.rb'
   test.verbose = true
 end
 
