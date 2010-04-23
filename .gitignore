@@ -12,3 +12,4 @@ pkg
 *.gem
 *.gemspec
 coverage
+metrics/*

@@ -20,8 +20,12 @@ module Pseudocephalopod
       slug
     end
     
+    def uuid
+      @uuid ||= UUID.new
+    end
+    
     def generate_uuid_slug
-      UUID.new.generate
+      uuid.generate
     end
     
     def last_known_slug_id(scope, slug)

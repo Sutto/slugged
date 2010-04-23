@@ -16,7 +16,7 @@ module Pseudocephalopod
       end
       
       def create_migration_file
-        migration_template "migration.rb", "db/migrate/create_pseudocephalopod_slugs.rb"
+        migration_template "migration.erb", "db/migrate/create_pseudocephalopod_slugs.rb"
       end
       
     end

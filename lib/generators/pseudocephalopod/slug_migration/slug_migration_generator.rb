@@ -16,7 +16,7 @@ module Pseudocephalopod
       end
       
       def create_migration_file
-        migration_template "migration.rb", "db/migrate/add_cached_slug_to_#{table_name}.rb"
+        migration_template "migration.erb", "db/migrate/add_cached_slug_to_#{table_name}.rb"
       end
       
     end

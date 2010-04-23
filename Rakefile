@@ -40,14 +40,35 @@ begin
     test.pattern = 'test/**/*_test.rb'
     test.verbose = true
     test.rcov_opts << '--exclude \.bundle-cache --exclude gems-switcher'
+    test.output_dir = "metrics/coverage"
   end
 rescue LoadError
   task :rcov do
-    abort "RCov is not available. In order to run rcov, you must: sudo gem install rcov"
+    abort "Rcov isn't installed, please run via bundle exec after bundle installing"
   end
 end
 
+task :metrics => [:rcov, :saikuro, :reek, :flay, :flog, :roodi]
+
 task :test => :check_dependencies
+
+task :flog do
+  system "flog lib"
+end
+
+task :saikuro do
+  system "rm -rf metrics/saikuro && mkdir -p metrics/saikuro && saikuro -c -t -i lib/ -y 0 -w 11 -e 16 -o metrics/saikuro/"
+end
+
+begin
+  require 'flay'
+  require 'flay_task'
+  FlayTask.new
+rescue LoadError
+  task :flay do
+    abort "Flay isn't installed, please run via bundle exec after bundle installing"
+  end
+end
 
 begin
   require 'reek/rake/task'
@@ -58,7 +79,7 @@ begin
   end
 rescue LoadError
   task :reek do
-    abort "Reek is not available. In order to run reek, you must: sudo gem install reek"
+    abort "Reek isn't installed, please run via bundle exec after bundle installing"
   end
 end
 
@@ -70,7 +91,7 @@ begin
   end
 rescue LoadError
   task :roodi do
-    abort "Roodi is not available. In order to run roodi, you must: sudo gem install roodi"
+    abort "Roodi isn't installed, please run via bundle exec after bundle installing"
   end
 end
 

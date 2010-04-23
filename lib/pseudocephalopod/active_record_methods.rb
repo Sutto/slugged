@@ -1,15 +1,16 @@
 module Pseudocephalopod
   module ActiveRecordMethods
-    AR_CLASS_ATTRIBUTE_NAMES = %w(cached_slug_column slug_source string_to_slug_base default_uuid_slug use_slug_history sync_slugs slug_scope use_slug_cache use_slug_to_param).map(&:to_sym)
+    AR_CLASS_ATTRIBUTE_NAMES = %w(cached_slug_column slug_source slug_convertor_proc default_uuid_slug use_slug_history sync_slugs slug_scope use_slug_cache use_slug_to_param).map(&:to_sym)
     
     def is_sluggable(source = :name, options = {})
+      options.symbolize_keys!
+      class_attribute *AR_CLASS_ATTRIBUTE_NAMES
+      attr_accessor   :found_via_slug
+      # Load extensions
       extend  ClassMethods
       include InstanceMethods
       extend Pseudocephalopod::Scopes
       extend Pseudocephalopod::Finders
-      options.symbolize_keys!
-      class_attribute *AR_CLASS_ATTRIBUTE_NAMES
-      attr_accessor   :found_via_slug
       self.slug_source = source.to_sym
       set_slug_options options
       alias_method :to_param, :to_slug      if use_slug_to_param
@@ -26,7 +27,7 @@ module Pseudocephalopod
       
       def generate_slug
         slug_value = send(self.slug_source)
-        slug_value = self.string_to_slug_base.call(slug_value) if slug_value.present?
+        slug_value = self.slug_convertor_proc.call(slug_value) if slug_value.present?
         if slug_value.present?
           scope = self.class.other_than(self).slug_scope_relation(self)
           slug_value = Pseudocephalopod.next_value(scope, slug_value)
@@ -94,16 +95,14 @@ module Pseudocephalopod
       
       def set_slug_convertor(convertor)
         if convertor.present?
-          if convertor.is_a?(Symbol)
-            self.string_to_slug_base = proc { |r| r.try(convertor) }
-          elsif convertor.respond_to?(:call)
-            self.string_to_slug_base = convertor
+          unless convertor.respond_to?(:call)
+            convertor_key = convertor.to_sym
+            convertor     = proc { |r| r.try(convertor_key) }
           end
+          self.slug_convertor_proc = convertor
         else
-          if String.instance_methods.detect { |im| im.to_sym == :to_url }.present?
-            self.string_to_slug_base = proc { |r| r.to_s.to_url }
-          else
-            self.string_to_slug_base = proc { |r| ActiveSupport::Multibyte::Chars.new(r.to_s).parameterize }
+          self.slug_convertor_proc = proc do |slug|
+            slug.respond_to?(:to_url) ? slug.to_url : ActiveSupport::Multibyte::Chars.new(slug.to_s).parameterize
           end
         end
       end

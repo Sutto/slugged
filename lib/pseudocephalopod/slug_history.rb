@@ -23,8 +23,9 @@ module Pseudocephalopod
       protected
       
       def record_slug_changes
-        return unless send(:"#{self.cached_slug_column}_changed?")
-        value = send(:"#{self.cached_slug_column}_was")
+        slug_column = self.cached_slug_column
+        return unless send(:"#{slug_column}_changed?")
+        value = send(:"#{slug_column}_was")
         Pseudocephalopod.record_slug(self, value) if value.present?
       end
       
