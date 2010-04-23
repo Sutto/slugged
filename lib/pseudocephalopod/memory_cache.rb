@@ -1,7 +1,7 @@
 module Pseudocephalopod
   class MemoryCache
     
-    def self.write(key, value)
+    def self.write(key, value, options = {})
       cache[key.to_s] = value
     end
     

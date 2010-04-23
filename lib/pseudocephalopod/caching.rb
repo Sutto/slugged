@@ -2,6 +2,13 @@ require 'digest/sha2'
 
 module Pseudocephalopod
   module Caching
+    
+    class << self
+      attr_accessor :cache_expires_in
+    end
+    
+    # Cache for 10 minutes by default.
+    self.cache_expires_in = 600
    
     def self.included(parent)
       parent.extend ClassMethods
@@ -56,7 +63,12 @@ module Pseudocephalopod
         return if Pseudocephalopod.cache.blank?
         cache = Pseudocephalopod.cache
         key   = slug_cache_key(slug)
-        record.nil? ? cache.delete(key) : cache.write(key, record.id)
+        # Set an expires in option for caching.
+        caching_options = Hash.new.tap do |hash|
+          expiry = Pseudocephalopod::Caching.cache_expires_in
+          hash[:expires_in] = expiry.to_i if expiry.present?
+        end
+        record.nil? ? cache.delete(key) : cache.write(key, record.id, hash)
       end
       
       protected
