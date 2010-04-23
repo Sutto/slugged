@@ -28,5 +28,9 @@ module Pseudocephalopod
       for_record(record).delete_all
     end
   
+    def self.usable?
+      table_exists? rescue false
+    end
+  
   end
 end

@@ -1,6 +1,9 @@
 require 'digest/sha2'
 
 module Pseudocephalopod
+  # Mixin for adding simple caching support to models using pseudocephalod.
+  # Usually included by passing the :cache option as true (by default it is
+  # true, you can disable by passing :cache as false or nil).
   module Caching
     
     class << self
@@ -21,16 +24,20 @@ module Pseudocephalopod
     end
    
     module InstanceMethods
+      # Automatically called in after_save, will cache this records id
+      # with to match the current records slug / scope
       def globally_cache_slug
         return unless send(:"#{self.cached_slug_column}_changed?")
         value = self.to_slug
         self.class.cache_slug_lookup!(value, self) if value.present?
-        unless store_slug_history
+        unless use_slug_history
           value = send(:"#{self.cached_slug_column}_was")
           self.class.cache_slug_lookup!(value, nil)
         end
       end
       
+      # Wraps remove_slug_history! to remove each of the slugs
+      # recording in this models slug history.
       def remove_slug_history!
         previous_slugs.each { |s| self.class.cache_slug_lookup!(s, nil) }
         super
@@ -40,6 +47,7 @@ module Pseudocephalopod
    
     module ClassMethods
       
+      # Wraps find_using_slug to look in the cache.
       def find_using_slug(slug, options = {})
         # First, attempt to load an id and then record from the cache.
         if (cached_id = lookup_cached_id_from_slug(slug)).present?
@@ -51,6 +59,7 @@ module Pseudocephalopod
         end
       end
       
+      # Returns a slug cache key for a given slug.
       def slug_cache_key(slug)
         [Pseudocephalopod.cache_key_prefix, slug_scope_key(Digest::SHA256.hexdigest(slug.to_s.strip))].compact.join("/")
       end
@@ -59,6 +68,9 @@ module Pseudocephalopod
         lookup_cached_id_from_slug(slug).present?
       end
       
+      # Modify the cache for a given slug. If record is nil, it will
+      # delete the item from the slug cache, otherwise it will store
+      # the records id.
       def cache_slug_lookup!(slug, record)
         return if Pseudocephalopod.cache.blank?
         cache = Pseudocephalopod.cache

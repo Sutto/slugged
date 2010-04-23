@@ -8,20 +8,24 @@ module Pseudocephalopod
       extend Pseudocephalopod::Finders
       options.symbolize_keys!
       # Define the attributes
-      class_attribute :cached_slug_column, :slug_source, :slug_source_convertor,
-                      :default_uuid_slug, :store_slug_history, :sync_slugs, :slug_scope
+      class_attribute :cached_slug_column, :slug_source, :string_to_slug_base,
+                      :default_uuid_slug, :use_slug_history, :sync_slugs, :slug_scope,
+                      :use_slug_cache, :use_slug_to_param
       attr_accessor   :found_via_slug
       # Set attribute values
       set_slug_convertor options[:convertor]
       self.slug_source        = source.to_sym
       self.cached_slug_column = (options[:slug_column] || :cached_slug).to_sym
+      self.slug_scope         = options[:scope]
       self.default_uuid_slug  = !!options.fetch(:uuid, true)
-      self.store_slug_history = !!options.fetch(:history, true)
       self.sync_slugs         = !!options.fetch(:sync, true)
-      self.slug_scope         = options[:slug_scope]
-      alias_method :to_param, :to_slug      if !!options.fetch(:to_param, true)
-      include Pseudocephalopod::SlugHistory if self.store_slug_history
-      include Pseudocephalopod::Caching     if !!options.fetch(:use_cache, true)
+      self.use_slug_cache     = !!options.fetch(:use_cache, true)
+      self.use_slug_to_param  = !!options.fetch(:to_param, true)
+      self.use_slug_history   = !!options.fetch(:history, Pseudocephalopod::Slug.usable?)
+      alias_method :to_param, :to_slug      if self.use_slug_to_param
+      # Automatically mixin the correct module for each mixin.
+      include Pseudocephalopod::SlugHistory if self.use_slug_history
+      include Pseudocephalopod::Caching     if self.use_slug_cache
       before_validation :autogenerate_slug
     end
     
@@ -33,7 +37,7 @@ module Pseudocephalopod
       
       def generate_slug
         slug_value = send(self.slug_source)
-        slug_value = self.slug_source_convertor.call(slug_value) if slug_value.present?
+        slug_value = self.string_to_slug_base.call(slug_value) if slug_value.present?
         if slug_value.present?
           scope = self.class.other_than(self).slug_scope_relation(self)
           slug_value = Pseudocephalopod.next_value(scope, slug_value)
@@ -91,15 +95,15 @@ module Pseudocephalopod
       def set_slug_convertor(convertor)
         if convertor.present?
           if convertor.is_a?(Symbol)
-            self.slug_source_convertor = proc { |r| r.try(convertor) }
+            self.string_to_slug_base = proc { |r| r.try(convertor) }
           elsif convertor.respond_to?(:call)
-            self.slug_source_convertor = convertor
+            self.string_to_slug_base = convertor
           end
         else
-          if "".respond_to?(:to_url)
-            self.slug_source_convertor = proc { |r| r.to_s.to_url }
+          if String.instance_methods.detect { |im| im.to_sym == :to_url }.present?
+            self.string_to_slug_base = proc { |r| r.to_s.to_url }
           else
-            self.slug_source_convertor = proc { |r| ActiveSupport::Multibyte::Chars.new(r.to_s).parameterize }
+            self.string_to_slug_base = proc { |r| ActiveSupport::Multibyte::Chars.new(r.to_s).parameterize }
           end
         end
       end
