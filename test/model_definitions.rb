@@ -11,18 +11,9 @@ ReversibleData.add :slugs do |t|
   t.datetime :created_at
 end
 
-user = ReversibleData.add :users do |u|
+ReversibleData.add :users do |u|
   u.string :name
-  u.string :cached_slug
-  u.timestamps
-end
-
-user.define_model do
-  is_sluggable :name
-end
-
-ReversibleData.add :unslugged_users do |u|
-  u.string :name
+  u.string :address
   u.string :cached_slug
   u.timestamps
 end
