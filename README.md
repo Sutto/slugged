@@ -26,7 +26,7 @@ and built to work on Rails 3 from the start.
 
 ## Usage ##
 
-Using Pseudocephalopod is simple. In Rails, simply drop this in your gemfile:
+Using Pseudocephalopod is simple. In Rails, simply drop this in your Gemfile:
 
     gem 'pseudocephalopod'
     
