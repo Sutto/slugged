@@ -1,5 +1,6 @@
 module Pseudocephalopod
   module ActiveRecordMethods
+    AR_CLASS_ATTRIBUTE_NAMES = %w(cached_slug_column slug_source string_to_slug_base default_uuid_slug use_slug_history sync_slugs slug_scope use_slug_cache use_slug_to_param).map(&:to_sym)
     
     def is_sluggable(source = :name, options = {})
       extend  ClassMethods
@@ -7,25 +8,13 @@ module Pseudocephalopod
       extend Pseudocephalopod::Scopes
       extend Pseudocephalopod::Finders
       options.symbolize_keys!
-      # Define the attributes
-      class_attribute :cached_slug_column, :slug_source, :string_to_slug_base,
-                      :default_uuid_slug, :use_slug_history, :sync_slugs, :slug_scope,
-                      :use_slug_cache, :use_slug_to_param
+      class_attribute *AR_CLASS_ATTRIBUTE_NAMES
       attr_accessor   :found_via_slug
-      # Set attribute values
-      set_slug_convertor options[:convertor]
-      self.slug_source        = source.to_sym
-      self.cached_slug_column = (options[:slug_column] || :cached_slug).to_sym
-      self.slug_scope         = options[:scope]
-      self.default_uuid_slug  = !!options.fetch(:uuid, true)
-      self.sync_slugs         = !!options.fetch(:sync, true)
-      self.use_slug_cache     = !!options.fetch(:use_cache, true)
-      self.use_slug_to_param  = !!options.fetch(:to_param, true)
-      self.use_slug_history   = !!options.fetch(:history, Pseudocephalopod::Slug.usable?)
-      alias_method :to_param, :to_slug      if self.use_slug_to_param
-      # Automatically mixin the correct module for each mixin.
-      include Pseudocephalopod::SlugHistory if self.use_slug_history
-      include Pseudocephalopod::Caching     if self.use_slug_cache
+      self.slug_source = source.to_sym
+      set_slug_options options
+      alias_method :to_param, :to_slug      if use_slug_to_param
+      include Pseudocephalopod::SlugHistory if use_slug_history
+      include Pseudocephalopod::Caching     if use_slug_cache
       before_validation :autogenerate_slug
     end
     
@@ -90,6 +79,17 @@ module Pseudocephalopod
       
       def has_slug_scope?
         self.slug_scope.present?
+      end
+      
+      def set_slug_options(options)
+        set_slug_convertor options[:convertor]
+        self.cached_slug_column = (options[:slug_column] || :cached_slug).to_sym
+        self.slug_scope         = options[:scope]
+        self.default_uuid_slug  = !!options.fetch(:uuid, true)
+        self.sync_slugs         = !!options.fetch(:sync, true)
+        self.use_slug_cache     = !!options.fetch(:use_cache, true)
+        self.use_slug_to_param  = !!options.fetch(:to_param, true)
+        self.use_slug_history   = !!options.fetch(:history, Pseudocephalopod::Slug.usable?)
       end
       
       def set_slug_convertor(convertor)
