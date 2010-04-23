@@ -18,6 +18,7 @@ begin
     gem.homepage    = "http://github.com/Sutto/pseudocephalopod"
     gem.authors     = ["Darcy Laycock"]
     gem.add_dependency "activerecord", ">= 3.0.0.beta2"
+    gem.add_dependency "uuid"
     gem.add_development_dependency "shoulda", ">= 0"
     gem.add_development_dependency "reversible_data"
   end
