@@ -23,6 +23,12 @@ module Pseudocephalopod
           self.class.cache_slug_lookup!(value, nil)
         end
       end
+      
+      def remove_slug_history!
+        previous_slugs.each { |s| self.class.cache_slug_lookup!(s, nil) }
+        super
+      end
+      
     end
    
     module ClassMethods
@@ -47,7 +53,10 @@ module Pseudocephalopod
       end
       
       def cache_slug_lookup!(slug, record)
-        Pseudocephalopod.cache && Pseudocephalopod.cache.write(slug_cache_key(slug), record && record.id)
+        return if Pseudocephalopod.cache.blank?
+        cache = Pseudocephalopod.cache
+        key   = slug_cache_key(slug)
+        record.nil? ? cache.delete(key) : cache.write(key, record.id)
       end
       
       protected

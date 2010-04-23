@@ -16,16 +16,16 @@ module Pseudocephalopod
         Pseudocephalopod.previous_slugs_for(self)
       end
       
+      def remove_slug_history!
+        Pseudocephalopod.remove_slug_history_for(self)
+      end
+      
       protected
       
       def record_slug_changes
         return unless send(:"#{self.cached_slug_column}_changed?")
         value = send(:"#{self.cached_slug_column}_was")
         Pseudocephalopod.record_slug(self, value) if value.present?
-      end
-      
-      def remove_slug_history
-        Pseudocephalopod.remove_slug_history_for(self)
       end
       
     end

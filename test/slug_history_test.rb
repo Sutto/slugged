@@ -40,11 +40,24 @@ class SlugHistoryTest < Test::Unit::TestCase
         user.update_attributes! :name => "Sal"
         user.update_attributes! :name => "Red"
         user.update_attributes! :name => "Jim"
-        assert_equal ["red", "sal", "bob"], user.previous_slugs
         assert_same_as_slug user, "red"
         assert_same_as_slug user, "sal"
         assert_same_as_slug user, "bob"
         assert_same_as_slug user, "jim"  
+      end
+      
+      should 'let you reset history for a slug' do
+        setup_slugs!
+        user = User.create :name => "Bob"
+        user.update_attributes! :name => "Sal"
+        user.update_attributes! :name => "Red"
+        user.update_attributes! :name => "Jim"
+        assert_equal ["red", "sal", "bob"], user.previous_slugs
+        user.remove_slug_history!
+        assert_equal [], user.previous_slugs
+        assert_none_for_slug "red"
+        assert_none_for_slug "sal"
+        assert_none_for_slug "bob"
       end
 
       should 'let you disable recording of slug history' do

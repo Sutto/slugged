@@ -11,3 +11,4 @@ rdoc
 pkg
 *.gem
 *.gemspec
+coverage

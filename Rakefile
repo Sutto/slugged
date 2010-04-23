@@ -1,4 +1,8 @@
 require 'rubygems'
+require 'bundler'
+Bundler.setup
+Bundler.require
+
 require 'rake'
 
 require File.expand_path('../lib/pseudocephalopod/version', __FILE__)
@@ -33,20 +37,21 @@ begin
   require 'rcov/rcovtask'
   Rcov::RcovTask.new do |test|
     test.libs << 'test'
-    test.pattern = 'test/**/test_*.rb'
+    test.pattern = 'test/**/*_test.rb'
     test.verbose = true
+    test.rcov_opts << '--exclude \.bundle-cache --exclude gems-switcher'
   end
 rescue LoadError
   task :rcov do
-    abort "RCov is not available. In order to run rcov, you must: sudo gem install spicycode-rcov"
+    abort "RCov is not available. In order to run rcov, you must: sudo gem install rcov"
   end
 end
 
 task :test => :check_dependencies
 
 begin
-  require 'reek/adapters/rake_task'
-  Reek::RakeTask.new do |t|
+  require 'reek/rake/task'
+  Reek::Rake::Task.new do |t|
     t.fail_on_error = true
     t.verbose = false
     t.source_files = 'lib/**/*.rb'

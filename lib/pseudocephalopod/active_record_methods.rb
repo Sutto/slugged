@@ -10,7 +10,7 @@ module Pseudocephalopod
       # Define the attributes
       class_attribute :cached_slug_column, :slug_source, :slug_source_convertor,
                       :default_uuid_slug, :store_slug_history, :sync_slugs, :slug_scope
-      attr_accessor :found_via_slug
+      attr_accessor   :found_via_slug
       # Set attribute values
       set_slug_convertor options[:convertor]
       self.slug_source        = source.to_sym
@@ -19,9 +19,9 @@ module Pseudocephalopod
       self.store_slug_history = !!options.fetch(:history, true)
       self.sync_slugs         = !!options.fetch(:sync, true)
       self.slug_scope         = options[:slug_scope]
-      include Pseudocephalopod::Caching if !!options.fetch(:use_cache, true)
-      alias_method :to_param, :to_slug if !!options.fetch(:to_param, true)
+      alias_method :to_param, :to_slug      if !!options.fetch(:to_param, true)
       include Pseudocephalopod::SlugHistory if self.store_slug_history
+      include Pseudocephalopod::Caching     if !!options.fetch(:use_cache, true)
       before_validation :autogenerate_slug
     end
     
