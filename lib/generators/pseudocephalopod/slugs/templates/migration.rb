@@ -1,4 +1,5 @@
 class CreatePseudocephalopodSlugs < ActiveRecord::Migration
+  
   def self.up
     create_table :slugs do |t|
       t.string   :scope
@@ -15,4 +16,5 @@ class CreatePseudocephalopodSlugs < ActiveRecord::Migration
   def self.down
     drop_table :slugs
   end
+  
 end

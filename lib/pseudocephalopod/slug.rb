@@ -14,9 +14,10 @@ module Pseudocephalopod
     end
     
     def self.record_slug(record, slug)
+      scope = Pseudocephalopod.key_for_scope(record)
       # Clear slug history in this scope before recording the new slug
       for_slug(scope, slug).delete_all
-      create :scope => Pseudocephalopod.key_for_scope(record), :record_id => record.id, :slug => slug.to_s
+      create :scope => scope, :record_id => record.id, :slug => slug.to_s
     end
     
     def self.previous_for(record)

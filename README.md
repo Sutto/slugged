@@ -44,6 +44,10 @@ you'd usually want something like:
     add_column :users, :cached_slug, :string
     add_index :users,  :cached_slug
     
+Or, using our build in generator:
+
+    $ rails generate pseudocephalopod:slug_migration Model
+    
 Lastly, in your model, call is\_sluggable:
 
     class User

@@ -64,6 +64,6 @@ module Pseudocephalopod
   require 'pseudocephalopod/active_record_methods'
   ActiveRecord::Base.extend Pseudocephalopod::ActiveRecordMethods
   
-  # require 'pseudocephalopod/railtie' if defined?(Rails::Railtie)
+  require 'pseudocephalopod/railtie' if defined?(Rails::Railtie)
   
 end

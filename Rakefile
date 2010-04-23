@@ -9,7 +9,7 @@ begin
     gem.version     = Pseudocephalopod::Version::STRING
     gem.name        = "pseudocephalopod"
     gem.summary     = %Q{Super simple slugs for ActiveRecord 3.0 and higher, with support for slug history}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.description = %Q{Super simple slugs for ActiveRecord 3.0 and higher, with support for slug history}
     gem.email       = "sutto@sutto.net"
     gem.homepage    = "http://github.com/Sutto/pseudocephalopod"
     gem.authors     = ["Darcy Laycock"]
