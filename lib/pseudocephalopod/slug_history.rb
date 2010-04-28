@@ -6,7 +6,7 @@ module Pseudocephalopod
         include InstanceMethods
         extend  ClassMethods
         after_save :record_slug_changes
-        after_destroy :remove_slug_history
+        after_destroy :remove_slug_history!
       end
     end
    
