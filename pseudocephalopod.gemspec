@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{pseudocephalopod}
-  s.version = "0.2.1"
+  s.version = "0.2.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Darcy Laycock"]
-  s.date = %q{2010-04-28}
+  s.date = %q{2010-04-29}
   s.description = %q{Super simple slugs for ActiveRecord 3.0 and higher, with support for slug history}
   s.email = %q{sutto@sutto.net}
   s.extra_rdoc_files = [
@@ -38,6 +38,7 @@ Gem::Specification.new do |s|
      "lib/pseudocephalopod/slug_history.rb",
      "lib/pseudocephalopod/version.rb",
      "metrics/.gitignore",
+     "pseudocephalopod.gemspec",
      "test/caching_test.rb",
      "test/helper.rb",
      "test/is_sluggable_test.rb",
