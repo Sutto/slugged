@@ -10,6 +10,5 @@ coverage
 rdoc
 pkg
 *.gem
-*.gemspec
 coverage
 metrics/*
