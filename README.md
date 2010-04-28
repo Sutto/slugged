@@ -104,6 +104,12 @@ To run tests, simply do the following:
 
 And it's ready!
 
+## Contributors ##
+
+Thanks to the following who contributed functionality / bug fixes:
+
+* [Matt Pruitt](http://github.com/guitsaru)
+
 ## Note on Patches/Pull Requests ##
  
 * Fork the project.
