@@ -70,6 +70,17 @@ class SlugHistoryTest < Test::Unit::TestCase
         assert_none_for_slug "bob"
       end
       
+      should 'remove slug history for a record by default on destroy' do
+        setup_slugs!
+        user = User.create :name => "Bob"
+        user.update_attributes! :name => "Sal"
+        user.update_attributes! :name => "Red"
+        user.update_attributes! :name => "Jim"
+        assert_equal ["red", "sal", "bob"], user.previous_slugs
+        user.destroy
+        assert_equal [], user.previous_slugs
+      end
+      
     end
     
   end
