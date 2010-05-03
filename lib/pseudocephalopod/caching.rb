@@ -5,22 +5,14 @@ module Pseudocephalopod
   # Usually included by passing the :cache option as true (by default it is
   # true, you can disable by passing :cache as false or nil).
   module Caching
+    extend ActiveSupport::Concern
     
-    class << self
-      attr_accessor :cache_expires_in
-    end
-    
+    mattr_accessor :cache_expires_in
     # Cache for 10 minutes by default.
     self.cache_expires_in = 600
    
-    def self.included(parent)
-      parent.extend ClassMethods
-      
-      parent.class_eval do
-        include InstanceMethods
-        extend  ClassMethods
-        after_save :globally_cache_slug
-      end
+    included do
+      after_save :globally_cache_slug
     end
    
     module InstanceMethods

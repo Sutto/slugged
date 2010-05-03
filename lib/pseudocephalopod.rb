@@ -1,10 +1,17 @@
+require 'active_support'
+require 'active_record'
 require 'uuid'
 
+require 'active_support/dependencies/autoload'
+require 'active_support/core_ext/module/attribute_accessors'
+require 'active_support/concern'
+
 module Pseudocephalopod
+  extend ActiveSupport::Autoload
+  
+  mattr_accessor :cache_key_prefix, :cache
   
   class << self
-    
-    attr_accessor :cache_key_prefix, :cache
     
     def with_counter(prefix, counter = 0)
       counter < 1 ? prefix : "#{prefix}--#{counter}"
@@ -15,7 +22,7 @@ module Pseudocephalopod
       slug    = self.with_counter(prefix, counter)
       while scope.with_cached_slug(slug).exists?
         counter += 1
-        slug = self.with_counter(prefix, counter)
+        slug     = self.with_counter(prefix, counter)
       end
       slug
     end
@@ -58,12 +65,12 @@ module Pseudocephalopod
   
   self.cache_key_prefix ||= "cached-slugs"
   
-  autoload :Caching,     'pseudocephalopod/caching'
-  autoload :Scopes,      'pseudocephalopod/scopes'
-  autoload :Finders,     'pseudocephalopod/finders'
-  autoload :SlugHistory, 'pseudocephalopod/slug_history'
-  autoload :Slug,        'pseudocephalopod/slug'
-  autoload :MemoryCache, 'pseudocephalopod/memory_cache'
+  autoload :Caching
+  autoload :Scopes
+  autoload :Finders
+  autoload :SlugHistory
+  autoload :Slug
+  autoload :MemoryCache
   
   require 'pseudocephalopod/active_record_methods'
   ActiveRecord::Base.extend Pseudocephalopod::ActiveRecordMethods

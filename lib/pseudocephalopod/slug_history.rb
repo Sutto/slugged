@@ -1,13 +1,10 @@
 module Pseudocephalopod
   module SlugHistory
-   
-    def self.included(parent)
-      parent.class_eval do
-        include InstanceMethods
-        extend  ClassMethods
-        after_save :record_slug_changes
-        after_destroy :remove_slug_history!
-      end
+    extend ActiveSupport::Concern
+    
+    included do
+      after_save :record_slug_changes
+      after_destroy :remove_slug_history!
     end
    
     module InstanceMethods
