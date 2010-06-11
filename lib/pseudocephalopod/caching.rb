@@ -72,7 +72,7 @@ module Pseudocephalopod
           expiry = Pseudocephalopod::Caching.cache_expires_in
           hash[:expires_in] = expiry.to_i if expiry.present?
         end
-        record.nil? ? cache.delete(key) : cache.write(key, record.id, hash)
+        record.nil? ? cache.delete(key) : cache.write(key, record.id, caching_options)
       end
       
       protected
