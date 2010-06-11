@@ -1,7 +1,7 @@
 source :gemcutter
 
 # Setup gems
-gem "activerecord", "= 3.0.0.beta2"
+gem "activerecord", "= 3.0.0.beta4"
 gem "reversible_data"
 gem "uuid"
 gem "sqlite3-ruby", :require => "sqlite3"
