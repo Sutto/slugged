@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{pseudocephalopod}
-  s.version = "0.2.4"
+  s.version = "0.2.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Darcy Laycock"]
-  s.date = %q{2010-06-11}
+  s.date = %q{2010-09-05}
   s.description = %q{Super simple slugs for ActiveRecord 3.0 and higher, with support for slug history}
   s.email = %q{sutto@sutto.net}
   s.extra_rdoc_files = [
