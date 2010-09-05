@@ -73,7 +73,7 @@ module Pseudocephalopod
       end
       
       def slug_scope_relation(record)
-        has_slug_scope? ? where(slug_scope => record.send(slug_scope)) : unscoped
+        has_slug_scope? ? where(slug_scope => record.send(slug_scope)) : self
       end
       
       protected
