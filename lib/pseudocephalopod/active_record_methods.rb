@@ -16,7 +16,7 @@ module Pseudocephalopod
       alias_method :to_param, :to_slug      if use_slug_to_param
       include Pseudocephalopod::SlugHistory if use_slug_history
       include Pseudocephalopod::Caching     if use_slug_cache
-      before_validation :autogenerate_slug
+      before_save :autogenerate_slug
     end
     
     module InstanceMethods

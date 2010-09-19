@@ -76,10 +76,10 @@ class IsSluggableTest < Test::Unit::TestCase
         user = User.create :name => "bob is awesome"
         assert_equal "bob-is-awesome", user.to_param
         assert !user.new_record?
-        user.update_attributes! :name => "BOB-is-AWESOME"
+        user.update_attributes :name => "BOB-is-AWESOME"
         assert_equal "bob-is-awesome", user.to_param
       end
-      
+
     end
     
     context 'with slug syncing disabled' do
