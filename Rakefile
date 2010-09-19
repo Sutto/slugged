@@ -41,7 +41,7 @@ begin
     test.libs << 'test'
     test.pattern = 'test/**/*_test.rb'
     test.verbose = true
-    test.rcov_opts << '--exclude \.bundle-cache --exclude gems-switcher'
+    test.rcov_opts << '--exclude /gems/,/Library/,/usr/,lib/tasks,.bundle,config,/lib/rspec/,/lib/rspec-'
     test.output_dir = "metrics/coverage"
   end
 rescue LoadError
