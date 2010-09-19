@@ -72,6 +72,14 @@ class IsSluggableTest < Test::Unit::TestCase
         assert User.find_using_slug(user.id).has_better_slug?
       end
       
+      should 'not keep a users slug when updating themselves' do
+        user = User.create :name => "bob is awesome"
+        assert_equal "bob-is-awesome", user.to_param
+        assert !user.new_record?
+        user.update_attributes! :name => "BOB-is-AWESOME"
+        assert_equal "bob-is-awesome", user.to_param
+      end
+      
     end
     
     context 'with slug syncing disabled' do
