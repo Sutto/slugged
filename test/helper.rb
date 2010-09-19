@@ -8,6 +8,7 @@ Bundler.require
 require 'test/unit'
 require 'shoulda'
 require 'redgreen' if RUBY_VERSION < '1.9'
+require 'ruby-debug' if ENV['DEBUG']
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))

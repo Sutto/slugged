@@ -1,8 +1,7 @@
 source :gemcutter
 
 # Setup gems
-gem "activerecord", "= 3.0.0.beta4"
-gem "mongoid", ">= 2.0.0.beta"
+gem "activerecord", "= 3.0.0"
 gem "reversible_data"
 gem "uuid"
 gem "sqlite3-ruby", :require => "sqlite3"
@@ -17,3 +16,5 @@ gem "flog",     :require => nil
 gem "rake",     :require => nil
 gem "Saikuro",  :require => nil
 gem "jeweler",  :require => nil
+
+gem 'ruby-debug', :require => nil
