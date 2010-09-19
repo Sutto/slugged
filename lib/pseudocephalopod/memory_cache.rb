@@ -1,4 +1,8 @@
 module Pseudocephalopod
+  # Implements a simple cache store that uses the
+  # current processes memory. This makes is primarily
+  # used for testing purposes in the situations where
+  # caching is used.
   class MemoryCache
     
     def self.write(key, value, options = {})
