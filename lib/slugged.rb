@@ -6,7 +6,7 @@ require 'active_support/dependencies/autoload'
 require 'active_support/core_ext/module/attribute_accessors'
 require 'active_support/concern'
 
-module Pseudocephalopod
+module Slugged
   extend ActiveSupport::Autoload
 
   mattr_accessor :cache_key_prefix, :cache
@@ -36,19 +36,19 @@ module Pseudocephalopod
     end
 
     def last_known_slug_id(scope, slug)
-      Pseudocephalopod::Slug.id_for(Pseudocephalopod.key_for_scope(scope), slug)
+      Slugged::Slug.id_for(Slugged.key_for_scope(scope), slug)
     end
 
     def record_slug(record, slug)
-      Pseudocephalopod::Slug.record_slug(record, slug)
+      Slugged::Slug.record_slug(record, slug)
     end
 
     def previous_slugs_for(record)
-      Pseudocephalopod::Slug.previous_for(record)
+      Slugged::Slug.previous_for(record)
     end
 
     def remove_slug_history_for(record)
-      Pseudocephalopod::Slug.remove_history_for(record)
+      Slugged::Slug.remove_history_for(record)
     end
 
     def key_for_scope(scope)
@@ -72,9 +72,9 @@ module Pseudocephalopod
   autoload :Slug
   autoload :MemoryCache
 
-  require 'pseudocephalopod/active_record_methods'
-  ActiveRecord::Base.extend Pseudocephalopod::ActiveRecordMethods
+  require 'slugged/active_record_methods'
+  ActiveRecord::Base.extend Slugged::ActiveRecordMethods
 
-  require 'pseudocephalopod/railtie' if defined?(Rails::Railtie)
+  require 'slugged/railtie' if defined?(Rails::Railtie)
 
 end

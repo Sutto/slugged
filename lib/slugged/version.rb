@@ -1,4 +1,4 @@
-module Pseudocephalopod
+module Slugged
   module Version
     MAJOR  = 0
     MINOR  = 3

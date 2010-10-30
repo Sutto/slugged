@@ -1,4 +1,4 @@
-module Pseudocephalopod
+module Slugged
   # Implements a simple cache store that uses the
   # current processes memory. This makes is primarily
   # used for testing purposes in the situations where

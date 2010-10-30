@@ -1,4 +1,4 @@
-module Pseudocephalopod
+module Slugged
   module SlugHistory
     extend ActiveSupport::Concern
     
@@ -10,11 +10,11 @@ module Pseudocephalopod
     module InstanceMethods
       
       def previous_slugs
-        Pseudocephalopod.previous_slugs_for(self)
+        Slugged.previous_slugs_for(self)
       end
       
       def remove_slug_history!
-        Pseudocephalopod.remove_slug_history_for(self)
+        Slugged.remove_slug_history_for(self)
       end
       
       protected
@@ -23,7 +23,7 @@ module Pseudocephalopod
         slug_column = self.cached_slug_column
         return unless send(:"#{slug_column}_changed?")
         value = send(:"#{slug_column}_was")
-        Pseudocephalopod.record_slug(self, value) if value.present?
+        Slugged.record_slug(self, value) if value.present?
       end
       
     end
@@ -31,7 +31,7 @@ module Pseudocephalopod
     module ClassMethods
       
       def find_using_slug_history(slug, options = {})
-        id = Pseudocephalopod.last_known_slug_id(self, slug)
+        id = Slugged.last_known_slug_id(self, slug)
         id.present? ? find_by_id(id, options) : nil
       end
       

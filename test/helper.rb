@@ -12,11 +12,11 @@ require 'ruby-debug' if ENV['DEBUG']
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
-require 'pseudocephalopod'
+require 'slugged'
 require 'model_definitions'
 
 # Use a memory cache for testing.
-Pseudocephalopod.cache = Pseudocephalopod::MemoryCache
+Slugged.cache = Slugged::MemoryCache
 
 class Test::Unit::TestCase
   extend ReversibleData::ShouldaMacros

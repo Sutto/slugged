@@ -1,4 +1,4 @@
-module Pseudocephalopod
+module Slugged
   module Scopes
     
     def with_cached_slug(slug)

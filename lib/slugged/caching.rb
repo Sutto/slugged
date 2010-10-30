@@ -1,7 +1,7 @@
 require 'digest/sha2'
 
-module Pseudocephalopod
-  # Mixin for adding simple caching support to models using pseudocephalod.
+module Slugged
+  # Mixin for adding simple caching support to models using slugged.
   # Usually included by passing the :cache option as true (by default it is
   # true, you can disable by passing :cache as false or nil).
   module Caching
@@ -53,7 +53,7 @@ module Pseudocephalopod
       
       # Returns a slug cache key for a given slug.
       def slug_cache_key(slug)
-        [Pseudocephalopod.cache_key_prefix, slug_scope_key(Digest::SHA256.hexdigest(slug.to_s.strip))].compact.join("/")
+        [Slugged.cache_key_prefix, slug_scope_key(Digest::SHA256.hexdigest(slug.to_s.strip))].compact.join("/")
       end
       
       def has_cache_for_slug?(slug)
@@ -64,12 +64,12 @@ module Pseudocephalopod
       # delete the item from the slug cache, otherwise it will store
       # the records id.
       def cache_slug_lookup!(slug, record)
-        return if Pseudocephalopod.cache.blank?
-        cache = Pseudocephalopod.cache
+        return if Slugged.cache.blank?
+        cache = Slugged.cache
         key   = slug_cache_key(slug)
         # Set an expires in option for caching.
         caching_options = Hash.new.tap do |hash|
-          expiry = Pseudocephalopod::Caching.cache_expires_in
+          expiry = Slugged::Caching.cache_expires_in
           hash[:expires_in] = expiry.to_i if expiry.present?
         end
         record.nil? ? cache.delete(key) : cache.write(key, record.id, caching_options)
@@ -78,7 +78,7 @@ module Pseudocephalopod
       protected
       
       def lookup_cached_id_from_slug(slug)
-        Pseudocephalopod.cache && Pseudocephalopod.cache.read(slug_cache_key(slug))
+        Slugged.cache && Slugged.cache.read(slug_cache_key(slug))
       end
       
     end

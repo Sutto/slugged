@@ -3,7 +3,7 @@ require 'helper'
 class CachingTest < Test::Unit::TestCase
   with_tables :slugs, :users do
     
-    setup { Pseudocephalopod::MemoryCache.reset! }
+    setup { Slugged::MemoryCache.reset! }
     
     context 'with the default slug setup' do
       
@@ -13,7 +13,7 @@ class CachingTest < Test::Unit::TestCase
         assert_has_no_cache_for  "bob"
         u = User.create :name => "Bob"
         assert_has_cache_for     "bob"
-        Pseudocephalopod::MemoryCache.reset!
+        Slugged::MemoryCache.reset!
         assert_has_no_cache_for  "bob"
         assert_same_as_slug u,   "bob"
         assert_has_cache_for     "bob"
@@ -60,7 +60,7 @@ class CachingTest < Test::Unit::TestCase
     end
     
     # Ensure we destroy the contents of the cache after each test.
-    teardown { Pseudocephalopod::MemoryCache.reset! }
+    teardown { Slugged::MemoryCache.reset! }
     
   end
   

@@ -14,17 +14,17 @@ class SlugHistoryTest < Test::Unit::TestCase
       setup do
         @record_a = FakedModel.new(12)
         @record_b = FakedModel.new(4)
-        Pseudocephalopod.record_slug(@record_a, "awesome")
-        Pseudocephalopod.record_slug(@record_b, "awesome-1")
-        Pseudocephalopod.record_slug(@record_a, "ninjas")
+        Slugged.record_slug(@record_a, "awesome")
+        Slugged.record_slug(@record_b, "awesome-1")
+        Slugged.record_slug(@record_a, "ninjas")
       end
     
       should 'let you lookup a given record id easily' do
-        assert Pseudocephalopod.last_known_slug_id(FakedModel, "felafel").blank?
-        assert Pseudocephalopod.last_known_slug_id(FakedModel, "ninjas-2").blank?
-        assert_equal 12, Pseudocephalopod.last_known_slug_id(FakedModel, "awesome")
-        assert_equal 4,  Pseudocephalopod.last_known_slug_id(FakedModel, "awesome-1")
-        assert_equal 12, Pseudocephalopod.last_known_slug_id(FakedModel, "ninjas")
+        assert Slugged.last_known_slug_id(FakedModel, "felafel").blank?
+        assert Slugged.last_known_slug_id(FakedModel, "ninjas-2").blank?
+        assert_equal 12, Slugged.last_known_slug_id(FakedModel, "awesome")
+        assert_equal 4,  Slugged.last_known_slug_id(FakedModel, "awesome-1")
+        assert_equal 12, Slugged.last_known_slug_id(FakedModel, "ninjas")
       end
       
       should 'let you return slug history for a given record'

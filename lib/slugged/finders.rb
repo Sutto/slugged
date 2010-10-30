@@ -1,4 +1,4 @@
-module Pseudocephalopod
+module Slugged
   module Finders
     
     def find_using_slug(slug, options = {})

@@ -1,8 +1,8 @@
-# Pseudocephalopod #
+# Slugged #
 
 ## About ###
 
-Pseudocephalopod is a simple slug library for ActiveRecord 3.0 plus.
+Slugged is a simple slug library for ActiveRecord 3.0+.
 
 It's main features are:
 
@@ -12,8 +12,10 @@ It's main features are:
 4. Built on ActiveRecord 3.0
 5. If stringex is installed, uses stringex's transliteration stuff
 
-Also, it's name is inspired by the Jason Wander series of books which I just happened to be
-reading when I had the need for this.
+
+Slugged used to be called Pseudocephalopod - a name inspired by the Jason Wander series of
+books which I just happened to be reading when I had the need for this that focuses on a
+war with slug-like creatures.
 
 ### Why? ###
 
@@ -21,20 +23,20 @@ I love the idea of friendly\_id, and most of the implementation but it felt bloa
 to me and my experiences on getting it to work correctly with Rails 3 left a base taste
 in my mouth / was altogether hacky.
 
-Pseudocephalopod is very much inspired by friendly id but with a much simpler codebase
+Slugged is very much inspired by friendly id but with a much simpler codebase
 and built to work on Rails 3 from the start.
 
 ## Usage ##
 
-Using Pseudocephalopod is simple. In Rails, simply drop this in your Gemfile:
+Using Slugged is simple. In Rails, simply drop this in your Gemfile:
 
-    gem 'pseudocephalopod'
+    gem 'slugged'
     
 Optionally restricting the version.
 
 Next, if you wish to use slug history run:
 
-    $ rails generate pseudocephalopod:slugs
+    $ rails generate slugged:slugs
     
 Otherwise, when calling is\_sluggable make sure to include :history => false
 
@@ -46,7 +48,7 @@ you'd usually want something like:
     
 Or, using our build in generator:
 
-    $ rails generate pseudocephalopod:slug_migration Model
+    $ rails generate slugged:slug_migration Model
     
 Lastly, in your model, call is\_sluggable:
 
@@ -62,7 +64,7 @@ is\_sluggable accepts the source method name as a symbol, and an optional has of
 * _:uuid_ - If the slug is blank, uses a generated uuid instead. Defaults to true
 * _:slug\_column_ - the column in which to store the slug. Defaults to _:cached\_slug_
 * _:to\_param_ - if true (by default), overrides to_param to use the slug
-* _:use\_cache_ - uses Pseudocephalopod.cache if available to cache any lookups e.g. in memcache.
+* _:use\_cache_ - uses Slugged.cache if available to cache any lookups e.g. in memcache.
 
 Once installed, it provides the following methods:
 
@@ -95,7 +97,7 @@ Generates a slug if not already present.
 When found via Model.find\_using\_slug, it will return try
 if there is a better slug available. Intended for use in redirects etc.
 
-## Working on Pseudocephalopod ##
+## Working on Slugged ##
 
 To run tests, simply do the following:
 

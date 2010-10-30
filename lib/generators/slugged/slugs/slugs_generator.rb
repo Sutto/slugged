@@ -1,6 +1,6 @@
-module Pseudocephalopod
+module Slugged
   module Generators
-    class SlugMigrationGenerator < Rails::Generators::NamedBase
+    class SlugsGenerator < Rails::Generators::Base
       include Rails::Generators::Migration
       
       def self.source_root
@@ -16,7 +16,7 @@ module Pseudocephalopod
       end
       
       def create_migration_file
-        migration_template "migration.erb", "db/migrate/add_cached_slug_to_#{table_name}.rb"
+        migration_template "migration.erb", "db/migrate/create_slugged_slugs.rb"
       end
       
     end

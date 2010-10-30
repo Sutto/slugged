@@ -1,4 +1,4 @@
-module Pseudocephalopod
+module Slugged
   module ActiveRecordMethods
     AR_CLASS_ATTRIBUTE_NAMES = %w(cached_slug_column slug_source slug_convertor_proc default_uuid_slug use_slug_history sync_slugs slug_scope use_slug_cache use_slug_to_param).map(&:to_sym)
     
@@ -9,13 +9,13 @@ module Pseudocephalopod
       # Load extensions
       extend  ClassMethods
       include InstanceMethods
-      extend Pseudocephalopod::Scopes
-      extend Pseudocephalopod::Finders
+      extend Slugged::Scopes
+      extend Slugged::Finders
       self.slug_source = source.to_sym
       set_slug_options options
       alias_method :to_param, :to_slug      if use_slug_to_param
-      include Pseudocephalopod::SlugHistory if use_slug_history
-      include Pseudocephalopod::Caching     if use_slug_cache
+      include Slugged::SlugHistory if use_slug_history
+      include Slugged::Caching     if use_slug_cache
       before_save :autogenerate_slug
     end
     
@@ -30,10 +30,10 @@ module Pseudocephalopod
         slug_value = self.slug_convertor_proc.call(slug_value) if slug_value.present?
         if slug_value.present?
           scope = self.class.other_than(self).slug_scope_relation(self)
-          slug_value = Pseudocephalopod.next_value(scope, slug_value)
+          slug_value = Slugged.next_value(scope, slug_value)
           write_attribute self.cached_slug_column, slug_value
         elsif self.default_uuid_slug
-          write_attribute self.cached_slug_column, Pseudocephalopod.generate_uuid_slug
+          write_attribute self.cached_slug_column, Slugged.generate_uuid_slug
         else
           write_attribute self.cached_slug_column, nil
         end
@@ -90,7 +90,7 @@ module Pseudocephalopod
         self.sync_slugs         = !!options.fetch(:sync, true)
         self.use_slug_cache     = !!options.fetch(:use_cache, true)
         self.use_slug_to_param  = !!options.fetch(:to_param, true)
-        self.use_slug_history   = !!options.fetch(:history, Pseudocephalopod::Slug.usable?)
+        self.use_slug_history   = !!options.fetch(:history, Slugged::Slug.usable?)
       end
       
       def set_slug_convertor(convertor)

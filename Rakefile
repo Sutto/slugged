@@ -5,17 +5,17 @@ Bundler.require
 
 require 'rake'
 
-require File.expand_path('../lib/pseudocephalopod/version', __FILE__)
+require File.expand_path('../lib/slugged/version', __FILE__)
 
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.version     = Pseudocephalopod::Version::STRING
-    gem.name        = "pseudocephalopod"
+    gem.version     = Slugged::Version::STRING
+    gem.name        = "slugged"
     gem.summary     = %Q{Super simple slugs for ActiveRecord 3.0 and higher, with support for slug history}
     gem.description = %Q{Super simple slugs for ActiveRecord 3.0 and higher, with support for slug history}
     gem.email       = "sutto@sutto.net"
-    gem.homepage    = "http://github.com/Sutto/pseudocephalopod"
+    gem.homepage    = "http://github.com/Sutto/slugged"
     gem.authors     = ["Darcy Laycock"]
     gem.add_dependency "activerecord",  "~> 3.0.0"
     gem.add_dependency "activesupport", "~> 3.0.0"
@@ -104,7 +104,7 @@ Rake::RDocTask.new do |rdoc|
   version = File.exist?('VERSION') ? File.read('VERSION') : ""
 
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "pseudocephalopod #{version}"
+  rdoc.title = "slugged #{version}"
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
