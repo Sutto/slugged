@@ -25,10 +25,9 @@ module Slugged
         cached_value = send cached_slug_column
         cached_value.present? ? cached_value : id.to_s
       end
-      
+
       def generate_slug
-        slug_value = send(self.slug_source)
-        slug_value = self.slug_convertor_proc.call(slug_value) if slug_value.present?
+        slug_value = self.class.slug_value_for(send(self.slug_source))
         if slug_value.present?
           scope = self.class.other_than(self).slug_scope_relation(self)
           slug_value = Slugged.next_value(scope, slug_value)
@@ -39,6 +38,10 @@ module Slugged
           write_attribute self.cached_slug_column, nil
         end
       end
+
+      def convert_cached_slug
+        write_attribute self.cached_slug_column, self.class.slug_value_for(send(self.cached_slug_column))
+      end
       
       def generate_slug!
         generate_slug
@@ -46,11 +49,19 @@ module Slugged
       end
       
       def autogenerate_slug
-        generate_slug if should_generate_slug?
+        if should_convert_cached_slug?
+          convert_cached_slug
+        else
+          generate_slug if should_generate_slug?
+        end
+      end
+
+      def should_convert_cached_slug?
+        send(:"#{self.cached_slug_column}_changed?") && !send(self.cached_slug_column).blank?
       end
       
       def should_generate_slug?
-        send(self.cached_slug_column).blank? || (self.sync_slugs && send(:"#{self.slug_source}_changed?"))
+        send(self.cached_slug_column).blank? || (self.sync_slugs && send(:"#{self.slug_source}_changed?")) && !should_convert_cached_slug?
       end
       
       def has_better_slug?
@@ -77,6 +88,10 @@ module Slugged
         has_slug_scope? ? where(slug_scope => record.send(slug_scope)) : scoped
       end
       
+      def slug_value_for(value)
+        value.present? ? self.slug_convertor_proc.call(value) : value
+      end
+
       protected
       
       def has_slug_scope?
@@ -107,7 +122,6 @@ module Slugged
           end
         end
       end
-      
     end    
   end
 end
