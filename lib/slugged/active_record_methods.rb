@@ -1,6 +1,6 @@
 module Slugged
   module ActiveRecordMethods
-    AR_CLASS_ATTRIBUTE_NAMES = %w(cached_slug_column slug_source slug_convertor_proc default_uuid_slug use_slug_history sync_slugs slug_scope use_slug_cache use_slug_to_param).map(&:to_sym)
+    AR_CLASS_ATTRIBUTE_NAMES = %w(cached_slug_column slug_source slug_convertor_proc default_uuid_slug use_slug_history sync_slugs slug_scope use_slug_cache use_slug_to_param editable).map(&:to_sym)
     
     def is_sluggable(source = :name, options = {})
       options.symbolize_keys!
@@ -56,7 +56,7 @@ module Slugged
       end
       
       def should_convert_cached_slug?
-        send(:"#{self.cached_slug_column}_changed?") && !send(self.cached_slug_column).blank?
+        send(:"#{self.cached_slug_column}_changed?") && !send(self.cached_slug_column).blank? && self.editable?
       end
       
       def should_generate_slug?
@@ -106,6 +106,7 @@ module Slugged
         self.use_slug_cache     = !!options.fetch(:use_cache, true)
         self.use_slug_to_param  = !!options.fetch(:to_param, true)
         self.use_slug_history   = !!options.fetch(:history, Slugged::Slug.usable?)
+        self.editable           = !!options.fetch(:editable, false)
       end
       
       def set_slug_convertor(convertor)

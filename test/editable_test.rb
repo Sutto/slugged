@@ -5,7 +5,7 @@ class EditableTest < Test::Unit::TestCase
   with_tables :slugs, :users do      
     context 'with the editable option' do
       
-      setup { setup_slugs! }
+      setup { setup_slugs! :editable => true }
       
       should 'correctly sluggify a value when cached_slug is blank on create' do
         user = User.create(:name => "Bob")
