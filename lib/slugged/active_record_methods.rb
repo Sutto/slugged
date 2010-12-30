@@ -22,7 +22,8 @@ module Slugged
     module InstanceMethods
       
       def to_slug
-        cached_slug.present? ? cached_slug : id.to_s
+        cached_value = send cached_slug_column
+        cached_value.present? ? cached_value : id.to_s
       end
       
       def generate_slug
