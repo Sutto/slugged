@@ -65,6 +65,7 @@ is\_sluggable accepts the source method name as a symbol, and an optional has of
 * _:slug\_column_ - the column in which to store the slug. Defaults to _:cached\_slug_
 * _:to\_param_ - if true (by default), overrides to_param to use the slug
 * _:use\_cache_ - uses Slugged.cache if available to cache any lookups e.g. in memcache.
+* _:editable_ - if true (false is the default), allow the users to edit _cached\_slug_ column.
 
 Once installed, it provides the following methods:
 
