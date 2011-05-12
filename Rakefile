@@ -52,8 +52,6 @@ end
 
 task :metrics => [:rcov, :saikuro, :reek, :flay, :flog, :roodi]
 
-task :test => :check_dependencies
-
 task :flog do
   system "flog lib"
 end
