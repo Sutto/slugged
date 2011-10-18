@@ -1,39 +1,13 @@
-require 'rubygems'
-require 'bundler'
-Bundler.setup
-Bundler.require
-
-require 'rake'
-
-require File.expand_path('../lib/slugged/version', __FILE__)
-
-begin
-  require 'jeweler'
-  Jeweler::Tasks.new do |gem|
-    gem.version     = Slugged::Version::STRING
-    gem.name        = "slugged"
-    gem.summary     = %Q{Super simple slugs for ActiveRecord 3.0 and higher, with support for slug history}
-    gem.description = %Q{Super simple slugs for ActiveRecord 3.0 and higher, with support for slug history}
-    gem.email       = "sutto@sutto.net"
-    gem.homepage    = "http://github.com/Sutto/slugged"
-    gem.authors     = ["Darcy Laycock"]
-    gem.add_dependency "activerecord",  "~> 3.0.0"
-    gem.add_dependency "activesupport", "~> 3.0.0"
-    gem.add_dependency "uuid"
-    gem.add_development_dependency "shoulda", ">= 0"
-    gem.add_development_dependency "reversible_data"
-  end
-  Jeweler::GemcutterTasks.new
-rescue LoadError
-  puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
-end
-
+require 'bundler/gem_tasks'
 require 'rake/testtask'
-Rake::TestTask.new(:test) do |test|
-  test.libs << 'lib' << 'test'
-  test.pattern = 'test/**/*_test.rb'
-  test.verbose = true
+
+Rake::TestTask.new do |t|
+  t.libs << "test"
+  t.test_files = FileList['test/*_test.rb']
+  t.verbose = true
 end
+
+task :default => :test
 
 begin
   require 'rcov/rcovtask'
@@ -51,8 +25,6 @@ rescue LoadError
 end
 
 task :metrics => [:rcov, :saikuro, :reek, :flay, :flog, :roodi]
-
-task :test => :check_dependencies
 
 task :flog do
   system "flog lib"
@@ -97,9 +69,7 @@ rescue LoadError
   end
 end
 
-task :default => :test
-
-require 'rake/rdoctask'
+require 'rdoc/task'
 Rake::RDocTask.new do |rdoc|
   version = File.exist?('VERSION') ? File.read('VERSION') : ""
 
