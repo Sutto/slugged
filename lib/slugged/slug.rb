@@ -1,6 +1,6 @@
 module Slugged
   class Slug < ActiveRecord::Base
-    set_table_name "slugs"
+    self.table_name "slugs"
   
     validates_presence_of :record_id, :slug, :scope
   
