@@ -15,28 +15,25 @@ module Slugged
       after_save :globally_cache_slug
     end
    
-    module InstanceMethods
-      # Automatically called in after_save, will cache this records id
-      # with to match the current records slug / scope
-      def globally_cache_slug
-        return unless send(:"#{self.cached_slug_column}_changed?")
-        value = self.to_slug
-        self.class.cache_slug_lookup!(value, self) if value.present?
-        unless use_slug_history
-          value = send(:"#{self.cached_slug_column}_was")
-          self.class.cache_slug_lookup!(value, nil)
-        end
+    # Automatically called in after_save, will cache this records id
+    # with to match the current records slug / scope
+    def globally_cache_slug
+      return unless send(:"#{self.cached_slug_column}_changed?")
+      value = self.to_slug
+      self.class.cache_slug_lookup!(value, self) if value.present?
+      unless use_slug_history
+        value = send(:"#{self.cached_slug_column}_was")
+        self.class.cache_slug_lookup!(value, nil)
       end
-      
-      # Wraps remove_slug_history! to remove each of the slugs
-      # recording in this models slug history.
-      def remove_slug_history!
-        previous_slugs.each { |s| self.class.cache_slug_lookup!(s, nil) }
-        super
-      end
-      
     end
-   
+    
+    # Wraps remove_slug_history! to remove each of the slugs
+    # recording in this models slug history.
+    def remove_slug_history!
+      previous_slugs.each { |s| self.class.cache_slug_lookup!(s, nil) }
+      super
+    end
+
     module ClassMethods
       
       # Wraps find_using_slug to look in the cache.
