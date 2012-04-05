@@ -31,7 +31,12 @@ module Slugged
       scope = Slugged.key_for_scope(record)
       # Clear slug history in this scope before recording the new slug
       for_slug(scope, slug).delete_all
-      create :scope => scope, :record_id => record.id, :slug => slug.to_s
+      new.tap do |history|
+        history.scope     = scope
+        history.record_id = record.id
+        history.slug      = slug.to_s
+        history.save
+      end
     end
     
     def self.remove_history_for(record)

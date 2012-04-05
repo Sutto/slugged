@@ -24,21 +24,15 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.summary = %q{Super simple slugs for ActiveRecord 3.0 and higher, with support for slug history}
 
-  s.add_runtime_dependency(%q<activerecord>, ["~> 3"])
-  s.add_runtime_dependency(%q<activesupport>, ["~> 3"])
-  s.add_runtime_dependency(%q<uuid>, [">= 0"])
-  s.add_development_dependency(%q<shoulda>, [">= 0"])
-  s.add_development_dependency(%q<reversible_data>, [">= 0"])
-  s.add_development_dependency(%q<sqlite3-ruby>)
-  s.add_development_dependency(%q<redgreen>) if RUBY_VERSION < "1.9"
-  s.add_development_dependency(%q<rcov>)
-  s.add_development_dependency(%q<reek>)  
-  s.add_development_dependency(%q<roodi>)  
-  s.add_development_dependency(%q<flay>)
-  s.add_development_dependency(%q<flog>)  
-  s.add_development_dependency(%q<Saikuro>)  
-  s.add_development_dependency(%q<ruby-debug>)
-  s.add_development_dependency(%q<rdoc>)
-  s.add_development_dependency(%q<rake>, '> 0.9')  
+  s.add_runtime_dependency "activerecord",  "~> 3.0"
+  s.add_runtime_dependency "activesupport", "~> 3.0"
+  s.add_runtime_dependency "uuid"
+
+  s.add_development_dependency "shoulda"
+  s.add_development_dependency "reversible_data"
+  s.add_development_dependency "sqlite3-ruby"
+  s.add_development_dependency "redgreen"
+  s.add_development_dependency "rake"
+  s.add_development_dependency "rdoc"
 end
 
