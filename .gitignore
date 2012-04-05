@@ -12,3 +12,4 @@ pkg
 *.gem
 coverage
 metrics/*
+Gemfile.lock
