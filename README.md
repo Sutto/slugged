@@ -98,7 +98,7 @@ Generates a slug if not already present.
 When found via Model.find\_using\_slug, it will return try
 if there is a better slug available. Intended for use in redirects etc.
 
-## Working on Slugged ##
+## Working on Slugged
 
 To run tests, simply do the following:
 
@@ -107,13 +107,13 @@ To run tests, simply do the following:
 
 And it's ready!
 
-## Contributors ##
+## Contributors
 
 Thanks to the following who contributed functionality / bug fixes:
 
 * [Matt Pruitt](http://github.com/guitsaru)
 
-## Note on Patches/Pull Requests ##
+## Note on Patches/Pull Requests
  
 * Fork the project.
 * Make your feature addition or bug fix.
@@ -121,6 +121,6 @@ Thanks to the following who contributed functionality / bug fixes:
 * Commit, do not mess with rakefile, version, or history. (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
 
-## Copyright ##
+## Copyright
 
 Copyright (c) 2010 Darcy Laycock. See LICENSE for details.
