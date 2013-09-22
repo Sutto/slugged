@@ -4,8 +4,8 @@ module Slugged
   
     validates_presence_of :record_id, :slug, :scope
   
-    scope :ordered,    order('created_at DESC')
-    scope :only_slug,  select(:slug)
+    scope :ordered,    lambda { order('created_at DESC') }
+    scope :only_slug,  lambda { select(:slug) }
     scope :for_record, lambda { |r| where(:record_id => r.id, :scope => Slugged.key_for_scope(r)) }
     scope :for_slug,   lambda { |scope, slug| where(:scope=> scope.to_s, :slug => slug.to_s)}
   
