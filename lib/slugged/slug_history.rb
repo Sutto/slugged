@@ -26,9 +26,9 @@ module Slugged
     
     module ClassMethods
       
-      def find_using_slug_history(slug, options = {})
+      def find_using_slug_history(slug)
         id = Slugged.last_known_slug_id(self, slug)
-        id.present? ? find_by_id(id, options) : nil
+        id.present? ? find_by_id(id) : nil
       end
       
     end

@@ -37,10 +37,10 @@ module Slugged
     module ClassMethods
       
       # Wraps find_using_slug to look in the cache.
-      def find_using_slug(slug, options = {})
+      def find_using_slug(slug)
         # First, attempt to load an id and then record from the cache.
         if (cached_id = lookup_cached_id_from_slug(slug)).present?
-          return find(cached_id, options).tap { |r| r.found_via_slug = slug }
+          return find(cached_id).tap { |r| r.found_via_slug = slug }
         end
         # Otherwise, fallback to the normal approach.
         super.tap do |record|
