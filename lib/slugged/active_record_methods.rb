@@ -85,7 +85,7 @@ module Slugged
       end
       
       def slug_scope_relation(record)
-        has_slug_scope? ? where(slug_scope => record.send(slug_scope)) : scoped
+        has_slug_scope? ? where(slug_scope => record.send(slug_scope)) : where(nil)
       end
       
       def slug_value_for(value)
