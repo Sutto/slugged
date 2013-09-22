@@ -19,8 +19,8 @@ Gem::Specification.new do |s|
   s.rdoc_options              = ["--charset=UTF-8"]
   s.summary                   = %q{Super simple slugs for ActiveRecord 3.0 and higher, with support for slug history}
 
-  s.add_runtime_dependency "activerecord",  "~> 3.0"
-  s.add_runtime_dependency "activesupport", "~> 3.0"
+  s.add_runtime_dependency "activerecord",  ">= 3.0"
+  s.add_runtime_dependency "activesupport", ">= 3.0"
   s.add_runtime_dependency "uuid"
 
   s.add_development_dependency "shoulda"
