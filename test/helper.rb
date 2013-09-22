@@ -28,13 +28,13 @@ class Test::Unit::TestCase
     User.is_sluggable field, options
   end
   
-  def assert_same_as_slug(user, slug, options = {})
-    found_user = User.find_using_slug(slug, options)
+  def assert_same_as_slug(user, slug)
+    found_user = User.find_using_slug(slug)
     assert_equal user, found_user, "#{slug.inspect} should return #{user.inspect}, got #{found_user.inspect}"
   end
   
-  def assert_different_to_slug(user, slug, options = {})
-    found_user = User.find_using_slug(slug, options)
+  def assert_different_to_slug(user, slug)
+    found_user = User.find_using_slug(slug)
     assert_not_equal user, found_user, "#{slug.inspect} should not return #{user.inspect}, got same record."
   end
   
