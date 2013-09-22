@@ -1,4 +1,4 @@
-source :gemcutter
+source 'https://rubygems.org'
 
 # Allow testing multiple versions with Travis.
 rails_version = ENV['RAILS_VERSION']
