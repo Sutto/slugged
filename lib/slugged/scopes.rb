@@ -6,7 +6,7 @@ module Slugged
     end
     
     def other_than(record)
-      record.new_record? ? scoped : where("#{quoted_table_name}.#{connection.quote_column_name(:id)} != ?", record.id)
+      record.new_record? ? where(nil) : where("#{quoted_table_name}.#{connection.quote_column_name(:id)} != ?", record.id)
     end
     
   end
