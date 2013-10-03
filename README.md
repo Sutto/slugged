@@ -30,7 +30,7 @@ and built to work on Rails 3 from the start.
 
 Using Slugged is simple. In Rails, simply drop this in your Gemfile:
 
-    gem 'slugged'
+    gem 'slugged', '~> 2.0'
     
 Optionally restricting the version.
 
@@ -120,6 +120,10 @@ Thanks to the following who contributed functionality / bug fixes:
 * Add tests for it. This is important so I don't break it in a future version unintentionally.
 * Commit, do not mess with rakefile, version, or history. (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
+
+## Changes
+
+* __2.0.0__ - Support Rails 4.
 
 ## Copyright
 
