@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "shoulda"
   s.add_development_dependency "reversible_data"
-  s.add_development_dependency "sqlite3-ruby"
+  s.add_development_dependency "sqlite3"
   s.add_development_dependency "redgreen"
   s.add_development_dependency "rake"
   s.add_development_dependency "rdoc"
