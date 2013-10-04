@@ -1,4 +1,4 @@
-# Slugged [![Build Status](https://secure.travis-ci.org/sutto/slugged.png?branch=master)](http://travis-ci.org/sutto/slugged)
+# Slugged [![Build Status](https://secure.travis-ci.org/Sutto/slugged.png?branch=master)](http://travis-ci.org/Sutto/slugged)
 
 ## About ###
 
