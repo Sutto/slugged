@@ -95,7 +95,7 @@ Generates a slug if not already present.
 
 ### User#has\_better\_slug? ###
 
-When found via Model.find\_using\_slug, it will return try
+When found via Model.find\_using\_slug, it will return `true`
 if there is a better slug available. Intended for use in redirects etc.
 
 ## Working on Slugged
